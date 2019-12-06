@@ -7,8 +7,11 @@ function doAjax(x, y, r, writable) {
 }
 function changePage(point, writable) {
     drawPoint(point.x, point.y, (point.inArea==="Да" ? "lime":"red"));
+    console.log("I drew this :)");
     if(writable) {
+        console.log("I passed the writable check");
         if (!document.getElementById("result-table")) {
+            console.log("I passed the table existence check");
             let block = document.createElement("div");
             block.id="history-block";
             let table = document.createElement("table");
@@ -20,16 +23,15 @@ function changePage(point, writable) {
             header.setAttribute("class", "table-text");
             header.innerText = "Результаты";
             let button = document.createElement("div");
-            button.innerHTML = "<button type=\"button\" onclick=\"clearHistory(); location.reload();\" class=\"history-button\">Очистить историю</button><br>";
-            document.getElementsByClassName("main")[0].append(block);
-            block.append(header);
-            block.append(button);
-            block.append(table);
-            table.append(headers);
+            button.innerHTML = "<button type=\"button\" onclick=\"clearHistory()\" class=\"history-button\">Очистить историю</button><br>";
+            document.getElementById("main").appendChild(block);
+            block.appendChild(header);
+            block.appendChild(button);
+            block.appendChild(table);
+            table.appendChild(headers);
         }
-        let row = document.createElement("tr");
+        let row = document.getElementById("result-table").insertRow(1);
         row.innerHTML = `<td>${point.x}</td><td>${point.y}</td><td>${point.r}</td><td>${point.inArea}</td><td>${point.time}</td>`;
-        document.getElementById("table-headers").after(row);
     }
 }
 function clearHistory() {
@@ -37,4 +39,5 @@ function clearHistory() {
     req.open("POST", document.documentURI, true);
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send("type=clear");
+    setTimeout('location.reload()', 500);
 }

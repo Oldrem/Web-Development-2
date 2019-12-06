@@ -29,7 +29,9 @@ blockButton();
 offsetField.value = new Date().getTimezoneOffset();
 drawAxis();
 
-
+window.onload = function(){
+    clear();
+}
 function rButtonsOnClick(event) {
     for (let button of document.getElementsByClassName("r-button")){
         button.classList.remove("pressed");
